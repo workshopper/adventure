@@ -15,6 +15,8 @@ function Shop (opts) {
     if (!opts) opts = {};
     if (typeof opts === 'string') opts = { name: opts };
     this.name = opts.name;
+    this.options = opts;
+    
     if (!this.name) throw new Error(
         'Your adventure must have a name! '
         + 'Supply an `opts.name` to workshoppe().'
@@ -47,24 +49,48 @@ function Shop (opts) {
 Shop.prototype.execute = function (args) {
     var argv = minimist(args);
     var cmd = argv._.shift();
-    if (!cmd) this.showMenu();
+    if (!cmd) this.showMenu(this.options);
 };
 
 Shop.prototype.add = function (name, fn) {
     this._adventures.push({ name: name, fn: fn });
 };
 
-Shop.prototype.showMenu = function () {
+Shop.prototype.select = function (name) {
+    for (var i = 0; i < this._adventures.length; i++) {
+        var adv = this._adventures[i];
+        if (adv.name === name) {
+            var p = adv.fn();
+            if (!p.show) throw new Error(
+                "This problem doesn't have a .show function yet!"
+            );
+            if (typeof p.show !== 'function') throw new Error(
+                'This p.show is a ' + typeof p.show
+                + '. It should be a function instead.'
+            );
+            p.show();
+        }
+    }
+};
+
+Shop.prototype.showMenu = function (opts) {
+    var self = this;
+    if (!opts) opts = {};
+    
     var menu = showMenu({
-        fg: 'white',
-        bg: 'red',
+        fg: opts.fg,
+        bg: opts.bg,
         names: this._adventures.map(function (x) { return x.name }),
         completed: this.state.completed
+    });
+    menu.on('select', function (name) {
+        self.select(name);
     });
     menu.on('exit', function () {
         menu.close();
         console.log();
     });
+    return menu;
 };
 
 Shop.prototype.save = function (key) {
