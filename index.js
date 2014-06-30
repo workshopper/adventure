@@ -157,19 +157,19 @@ Shop.prototype.select = function (name) {
     this.save('current');
     
     var p = adv.fn();
-    if (!p.show) {
-        p.show = this.colors.info + Array(63).join('!') + '\n'
+    if (!p.problem) {
+        p.problem = this.colors.info + Array(67).join('!') + '\n'
             + '!!!' + this.colors.reset
-            + ' This adventure does not have a .show description yet! '
+            + ' This adventure does not have a .problem description yet! '
             + this.colors.info + ' !!!\n!!!' + this.colors.reset
-            + ' Set .show to a string, buffer, stream or function that'
+            + ' Set .problem to a string, buffer, stream or function that'
             + this.colors.info + ' !!!\n!!!' + this.colors.reset
-            + ' returns a string, buffer, or stream.                  '
-            + this.colors.info + ' !!!\n' + Array(63).join('!') + '\n'
+            + ' returns a string, buffer, or stream.                     '
+            + this.colors.info + ' !!!\n' + Array(67).join('!') + '\n'
         ;
     }
     console.log();
-    show(p.show);
+    show(p.problem);
     
     function show (m) {
         if (typeof m === 'string') {
@@ -181,8 +181,8 @@ Shop.prototype.select = function (name) {
         else if (typeof m === 'object' && m.pipe) {
             m.pipe(process.stdout);
         }
-        else if (typeof p.show === 'function') {
-            show(p.show());
+        else if (typeof m === 'function') {
+            show(m());
         }
         else console.log(String(m));
     }
