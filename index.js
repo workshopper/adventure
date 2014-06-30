@@ -93,7 +93,7 @@ Shop.prototype.verify = function (args, name) {
         "This problem doesn't have a .verify function yet!"
     );
     if (typeof p.verify !== 'function') return this._error(
-        'This p.verify is a ' + typeof p.show
+        'This p.verify is a ' + typeof p.verify
         + '. It should be a function instead.'
     );
     var s = p.verify(args, function (ok) {
@@ -157,15 +157,35 @@ Shop.prototype.select = function (name) {
     this.save('current');
     
     var p = adv.fn();
-    if (!p.show) return this._error(
-        "This problem doesn't have a .show function yet!"
-    );
-    if (typeof p.show !== 'function') return this._error(
-        'This p.show is a ' + typeof p.show
-        + '. It should be a function instead.'
-    );
-    var s = p.show();
-    if (s && s.readable) s.pipe(process.stdout);
+    if (!p.show) {
+        p.show = this.colors.info + Array(63).join('!') + '\n'
+            + '!!!' + this.colors.reset
+            + ' This adventure does not have a .show description yet! '
+            + this.colors.info + ' !!!\n!!!' + this.colors.reset
+            + ' Set .show to a string, buffer, stream or function that'
+            + this.colors.info + ' !!!\n!!!' + this.colors.reset
+            + ' returns a string, buffer, or stream.                  '
+            + this.colors.info + ' !!!\n' + Array(63).join('!') + '\n'
+        ;
+    }
+    console.log();
+    show(p.show);
+    
+    function show (m) {
+        if (typeof m === 'string') {
+            console.log(m);
+        }
+        else if (Buffer.isBuffer(m)) {
+            process.stdout.write(m);
+        }
+        else if (typeof m === 'object' && m.pipe) {
+            m.pipe(process.stdout);
+        }
+        else if (typeof p.show === 'function') {
+            show(p.show());
+        }
+        else console.log(String(m));
+    }
 };
 
 Shop.prototype.showMenu = function (opts) {
