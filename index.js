@@ -19,7 +19,7 @@ function Shop (opts) {
     
     if (!this.name) return this._error(
         'Your adventure must have a name! '
-        + 'Supply an `opts.name` to workshoppe().'
+        + 'Supply an `opts.name` to adventure().'
     );
     
     this.datadir = opts.datadir || path.resolve(
