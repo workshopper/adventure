@@ -1,0 +1,37 @@
+{
+  "name": "adventure",
+  "version": "1.0.0",
+  "description": "quickly hack together a nodeschool adventure",
+  "main": "index.js",
+  "dependencies": {
+    "inherits": "~2.0.1",
+    "minimist": "~0.1.0",
+    "mkdirp": "~0.5.0",
+    "terminal-menu": "~0.2.0",
+    "x256": "~0.0.1"
+  },
+  "devDependencies": {
+    "tape": "^2.13.2"
+  },
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/substack/adventure.git"
+  },
+  "homepage": "https://github.com/substack/adventure",
+  "keywords": [
+    "nodeschool",
+    "adventure",
+    "workshop",
+    "education",
+    "edutainment"
+  ],
+  "author": {
+    "name": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net"
+  },
+  "license": "MIT"
+}
