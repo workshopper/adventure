@@ -99,10 +99,11 @@ Shop.prototype.verify = function (args, name) {
         'This p.verify is a ' + typeof p.verify
         + '. It should be a function instead.'
     );
-    p.verify(args, function (ok) {
+    var s = p.verify(args, function (ok) {
         if (ok) self.pass(name, p)
         else self.fail(name, p)
     });
+    if (s) show(s);
 };
 
 Shop.prototype.run = function (args, name) {
