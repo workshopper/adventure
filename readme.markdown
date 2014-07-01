@@ -251,6 +251,47 @@ that returns a string, a buffer, or a stream.
 * `$ADVENTURE_NAME` - the name of the adventure
 * `$ADVENTURE_COMMAND` - the name of the adventure command
 
+# usage
+
+The `.execute(args)` function accepts these commands:
+
+```
+$COMMAND
+$COMMAND menu
+
+  Show the menu.
+
+$COMMAND verify [ARGS...]
+
+  Verify the currently selected problem with ARGS.
+
+$COMMAND run [ARGS...]
+
+  Run the currently selected problem with ARGS.
+  Not all problems support `run`.
+
+$COMMAND selected
+
+  Print the currently selected level.
+ 
+$COMMAND select LEVEL
+
+  Set the currently selected LEVEL.
+
+$COMMAND list
+
+  List the available levels.
+
+$COMMAND completed
+
+  List the completed levels.
+
+$COMMAND help
+
+  Show this message.
+
+```
+
 # install
 
 With [npm](https://npmjs.org) do:
