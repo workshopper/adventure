@@ -13,6 +13,9 @@ particular (configurable) filesystem organization for problems.
 
 # tutorial
 
+You can fork this tutorial from the
+[example-adventure](https://github.com/substack/example-adventure) repo.
+
 First make a `runner.js`. This is the file you can wire up to the `package.json`
 `"bin"` field.
 
