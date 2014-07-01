@@ -4,6 +4,8 @@ var mkdirp = require('mkdirp');
 var fs = require('fs');
 var path = require('path');
 var x256 = require('x256');
+var through = require('through2');
+var split = require('split');
 
 var showMenu = require('./lib/menu.js');
 
@@ -22,6 +24,7 @@ function Shop (opts) {
         'Your adventure must have a name! '
         + 'Supply an `opts.name` to adventure().'
     );
+    this.command = opts.command || commandify(this.name);
     
     this.datadir = opts.datadir || path.resolve(
         process.env.HOME || process.env.USERPROFILE,
@@ -105,7 +108,7 @@ Shop.prototype.verify = function (args, name) {
         if (ok) self.pass(name, p)
         else self.fail(name, p)
     });
-    if (s) show(s);
+    if (s) this._show(s);
 };
 
 Shop.prototype.run = function (args, name) {
@@ -123,7 +126,8 @@ Shop.prototype.run = function (args, name) {
         'This p.run is a ' + typeof p.run
         + '. It should be a function instead.'
     );
-    show(p.run(args));
+    var s = p.run(args);
+    if (s) this._show(s);
 };
 
 Shop.prototype.pass = function (name, p) {
@@ -132,7 +136,7 @@ Shop.prototype.pass = function (name, p) {
     this.save('completed');
     
     if (p.pass) {
-        show(p.pass);
+        this._show(p.pass);
         console.log();
     }
     else {
@@ -148,12 +152,12 @@ Shop.prototype.pass = function (name, p) {
         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
         console.log(this.colors.reset + '\n');
     }
-    if (p.solution) show(p.solution);
+    if (p.solution) this._show(p.solution);
 };
 
 Shop.prototype.fail = function (name, p) {
     if (p.fail) {
-        show(p.fail);
+        this._show(p.fail);
         console.log();
     }
     else {
@@ -189,7 +193,7 @@ Shop.prototype.select = function (name) {
         ;
     }
     console.log();
-    show(p.problem);
+    if (p.problem) this._show(p.problem);
 };
 
 Shop.prototype.showMenu = function (opts) {
@@ -222,18 +226,29 @@ Shop.prototype._error = function (msg) {
     process.exit(1);
 };
 
-function show (m) {
-    if (typeof m === 'string') {
-        console.log(m);
-    }
-    else if (Buffer.isBuffer(m)) {
-        process.stdout.write(m);
-    }
-    else if (typeof m === 'object' && m.pipe) {
-        m.pipe(process.stdout);
+Shop.prototype._show = function (m) {
+    var self = this;
+    if (typeof m === 'object' && m.pipe) {
+        m.pipe(split()).pipe(through(write)).pipe(process.stdout);
     }
     else if (typeof m === 'function') {
-        show(m());
+        this._show(m());
     }
-    else console.log(String(m));
+    else console.log(replace(m));
+    
+    function write (buf, enc, next) {
+        this.push(replace(buf) + '\n');
+        next();
+    }
+    function replace (s) {
+        if (typeof s !== 'string') s = String(s);
+        return s
+            .replace(/\$ADVENTURE_COMMAND/g, self.command)
+            .replace(/\$ADVENTURE_NAME/g, self.name)
+        ;
+    }
+}
+
+function commandify (s) {
+    return String(s).toLowerCase().replace(/\s+/g, '-');
 }
