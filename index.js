@@ -81,6 +81,21 @@ Shop.prototype.execute = function (args) {
     else if (cmd === 'help' || argv.help) {
         showHelp({ command: this.command });
     }
+    else if (cmd === 'selected') {
+        console.log(this.state.current);
+    }
+    else if (cmd === 'list') {
+        console.log(this._adventures
+            .map(function (adv) { return adv.name })
+            .join('\n')
+        );
+    }
+    else if (cmd === 'completed') {
+        console.log(this.state.completed.join('\n'));
+    }
+    else if (cmd === 'select') {
+        this.select(args[1]);
+    }
     else if (!cmd || cmd === 'menu') {
         this.showMenu(this.options);
     }
@@ -204,7 +219,6 @@ Shop.prototype.select = function (name) {
             + this.colors.info + ' !!!\n' + Array(67).join('!') + '\n'
         ;
     }
-    console.log();
     if (p.problem) this._show(p.problem);
 };
 
@@ -221,6 +235,7 @@ Shop.prototype.showMenu = function (opts) {
         completed: this.state.completed
     });
     menu.on('select', function (name) {
+        console.log();
         self.select(name);
     });
     menu.on('exit', function () {

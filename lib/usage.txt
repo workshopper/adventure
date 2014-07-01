@@ -12,6 +12,22 @@ $COMMAND run [ARGS...]
   Run the currently selected problem with ARGS.
   Not all problems support `run`.
 
+$COMMAND selected
+
+  Print the currently selected level.
+ 
+$COMMAND select LEVEL
+
+  Set the currently selected LEVEL.
+
+$COMMAND list
+
+  List the available levels.
+
+$COMMAND completed
+
+  List the completed levels.
+
 $COMMAND help
 
   Show this message.
