@@ -14,6 +14,7 @@ function Shop (opts) {
     if (!(this instanceof Shop)) return new Shop(opts);
     if (!opts) opts = {};
     if (typeof opts === 'string') opts = { name: opts };
+    
     this.name = opts.name;
     this.options = opts;
     
@@ -99,6 +100,7 @@ Shop.prototype.verify = function (args, name) {
         'This p.verify is a ' + typeof p.verify
         + '. It should be a function instead.'
     );
+    
     var s = p.verify(args, function (ok) {
         if (ok) self.pass(name, p)
         else self.fail(name, p)
