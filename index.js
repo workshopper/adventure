@@ -6,8 +6,10 @@ var path = require('path');
 var x256 = require('x256');
 var through = require('through2');
 var split = require('split');
+var minimist = require('minimist');
 
 var showMenu = require('./lib/menu.js');
+var showHelp = require('./lib/help.js');
 
 module.exports = Shop;
 inherits(Shop, EventEmitter);
@@ -67,13 +69,23 @@ function Shop (opts) {
 }
 
 Shop.prototype.execute = function (args) {
-    var cmd = args.shift();
-    if (!cmd) this.showMenu(this.options);
-    else if (cmd === 'verify' || /^v/.test(cmd)) {
-        this.verify(args, this.state.current);
+    var cmd = args[0];
+    var argv = minimist(args, { alias: { h: 'help' } });
+    
+    if (cmd === 'verify' || /^v/.test(cmd)) {
+        this.verify(args.slice(1), this.state.current);
     }
     else if (cmd === 'run' || /^r/.test(cmd)) {
-        this.run(args, this.state.current);
+        this.run(args.slice(1), this.state.current);
+    }
+    else if (cmd === 'help' || argv.help) {
+        showHelp({ command: this.command });
+    }
+    else if (!cmd || cmd === 'menu') {
+        this.showMenu(this.options);
+    }
+    else {
+        console.log('unrecognized command: ' + cmd);
     }
 };
 
@@ -203,6 +215,7 @@ Shop.prototype.showMenu = function (opts) {
     var menu = showMenu({
         fg: opts.fg,
         bg: opts.bg,
+        command: this.command,
         title: opts.title || this.name.toUpperCase(),
         names: this._adventures.map(function (x) { return x.name }),
         completed: this.state.completed

@@ -1,0 +1,18 @@
+$COMMAND
+$COMMAND menu
+
+  Show the menu.
+
+$COMMAND verify [ARGS...]
+
+  Verify the currently selected problem with ARGS.
+
+$COMMAND run [ARGS...]
+
+  Run the currently selected problem with ARGS.
+  Not all problems support `run`.
+
+$COMMAND help
+
+  Show this message.
+
