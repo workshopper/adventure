@@ -109,20 +109,20 @@ Shop.prototype.pass = function (name, p) {
     this.save('completed');
     
     if (p.pass) {
-        var s = p.pass();
-        if (s && s.readable) s.pipe(process.stdout);
+        show(p.pass);
+        console.log();
     }
     else {
         console.log(
             '\n' + this.colors.pass
-            + '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+            + '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
         );
         console.log(
-            '!!!' + this.colors.reset
+            '@@@' + this.colors.reset
             + '     YOUR SOLUTION IS CORRECT'
-            + this.colors.pass + '!     !!!'
+            + this.colors.pass + '!     @@@'
         );
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
         console.log(this.colors.reset + '\n');
     }
     if (p.reference) {
@@ -133,8 +133,8 @@ Shop.prototype.pass = function (name, p) {
 
 Shop.prototype.fail = function (name, p) {
     if (p.fail) {
-        var s = p.fail();
-        if (s && s.readable) s.pipe(process.stdout);
+        show(p.fail);
+        console.log();
     }
     else {
         console.log(
@@ -170,22 +170,6 @@ Shop.prototype.select = function (name) {
     }
     console.log();
     show(p.problem);
-    
-    function show (m) {
-        if (typeof m === 'string') {
-            console.log(m);
-        }
-        else if (Buffer.isBuffer(m)) {
-            process.stdout.write(m);
-        }
-        else if (typeof m === 'object' && m.pipe) {
-            m.pipe(process.stdout);
-        }
-        else if (typeof m === 'function') {
-            show(m());
-        }
-        else console.log(String(m));
-    }
 };
 
 Shop.prototype.showMenu = function (opts) {
@@ -217,3 +201,19 @@ Shop.prototype._error = function (msg) {
     console.error('ERROR: ' + msg);
     process.exit(1);
 };
+
+function show (m) {
+    if (typeof m === 'string') {
+        console.log(m);
+    }
+    else if (Buffer.isBuffer(m)) {
+        process.stdout.write(m);
+    }
+    else if (typeof m === 'object' && m.pipe) {
+        m.pipe(process.stdout);
+    }
+    else if (typeof m === 'function') {
+        show(m());
+    }
+    else console.log(String(m));
+}
