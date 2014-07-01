@@ -111,8 +111,9 @@ Shop.prototype.add = function (name, fn) {
 Shop.prototype.find = function (name) {
     for (var i = 0; i < this._adventures.length; i++) {
         var adv = this._adventures[i];
-        if (adv.name === name) return adv;
+        if (norm(adv.name) === norm(name)) return adv;
     }
+    function norm (s) { return String(s).replace(/\W/g, '').toLowerCase() }
 };
 
 Shop.prototype.verify = function (args, name) {
