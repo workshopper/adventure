@@ -141,6 +141,7 @@ Create a new nodeschool workshop adventure.
 options are:
 
 * `opts.name` - name of your adventure (required)
+* `opts.command` - the name of the adventure command (inferred from `opts.name`)
 * `opts.title` - title to use for your adventure
 (default: `opts.name.toUpperCase()`)
 * `opts.datadir` - directory used to store the current level and the list of
@@ -220,7 +221,7 @@ after the success notification.
 `problem.solution` can be a string, a buffer, a stream, or a function that
 returns a string, a buffer, or a stream.
 
-# problem.pass
+## problem.pass
 
 This message will be displayed when a user successfully completes a level. The
 default `problem.pass` is says `YOUR SOLUTION IS CORRECT` in a box of made of
@@ -229,7 +230,7 @@ default `problem.pass` is says `YOUR SOLUTION IS CORRECT` in a box of made of
 `problem.pass` can be a string, a buffer, a stream, or a function that
 returns a string, a buffer, or a stream.
 
-# problem.fail
+## problem.fail
 
 This message will be displayed when a user's solution fails to pass all the
 tests. The default `problem.fail` is says `YOUR SOLUTION IS NOT CORRECT` in a
@@ -237,6 +238,15 @@ box of made of `#`s.
 
 `problem.fail` can be a string, a buffer, a stream, or a function that
 returns a string, a buffer, or a stream.
+
+# problem variables
+
+These variables will be automatically replaced any time you use them in any of
+the problem messages, whether in a string, a buffer, a stream, or a function
+that returns a string, a buffer, or a stream.
+
+* `$ADVENTURE_NAME` - the name of the adventure
+* `$ADVENTURE_COMMAND` - the name of the adventure command
 
 # install
 
