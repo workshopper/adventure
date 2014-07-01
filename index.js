@@ -145,10 +145,7 @@ Shop.prototype.pass = function (name, p) {
         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
         console.log(this.colors.reset + '\n');
     }
-    if (p.reference) {
-        var s = p.reference();
-        if (s && s.readable) s.pipe(process.stdout);
-    }
+    if (p.solution) show(p.solution);
 };
 
 Shop.prototype.fail = function (name, p) {
