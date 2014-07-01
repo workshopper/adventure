@@ -128,3 +128,124 @@ instead of getting mixed up with the TAP colors.
 Now just fill in the `problem.txt` and `solution.txt` files and you will have a
 working nodeschool-style adventure! Yay!
 
+# methods
+
+``` js
+var adventure = require('adventure')
+```
+
+## var shop = adventure(opts)
+
+Create a new nodeschool workshop adventure.
+
+options are:
+
+* `opts.name` - name of your adventure (required)
+* `opts.title` - title to use for your adventure
+(default: `opts.name.toUpperCase()`)
+* `opts.datadir` - directory used to store the current level and the list of
+completed levels. default: `'~/.config/' + opts.name`
+
+* `opts.colors` - object mapping color types to `[r,g,b]` arrays
+* `opts.colors.pass` - show passing solution messages with this color
+* `opts.colors.fail` - show failing solution messages with this color
+* `opts.colors.info` - show extra info with this color
+
+* `opts.fg` - menu foreground color
+* `opts.bg` - menu background color
+
+If `opts` is a string, it will be treated as the `opts.name`.
+
+## shop.add(name, fn)
+
+Your `fn()` should return a problem object in the format described below.
+
+## shop.execute(args)
+
+Run whatever commands are specified in the command-line `args`.
+
+## shop.showMenu(opts)
+
+If you don't want to let `.execute()` show the menu, you can show the menu
+yourself explicitly with `.showMenu()`.
+
+The options are:
+
+* `opts.fb` - foreground color
+* `opts.bg` - background color
+* `opts.title` - menu title text
+
+## shop.select(name)
+
+You can explicitly select a level with this method if you don't want to rely on
+the user to select a menu for themselves from the graphical menu.
+
+# problem object format
+
+Problems must have a `verify()` function. All other fields are optional.
+
+## problem.verify(args, cb)
+
+This function will be called when a user attempts to verify a problem with the
+`verify` command on the command-line.
+
+You will get an array of the arguments given after the `verify` command in
+`args`.
+
+You must call `cb(ok)` with `ok`, a boolean containing whether the solution was
+acceptible.
+
+Check out [adventure-verify](https://npmjs.org/package/adventure-verify)
+for a higher-level way of verifying solutions with
+[tape](https://npmjs.org/package/tape).
+
+## problem.run(args)
+
+This function will be called when the user uses the `run` command from the
+command-line. You can implement this if you want to but it doesn't make sense
+for all problems.
+
+## problem.problem
+
+This message will be displayed when a user selects the problem from the menu.
+
+`problem.problem` can be a string, a buffer, a stream, or a function that
+returns a string, a buffer, or a stream.
+
+## problem.solution
+
+This message will be displayed when a user successfully completes a problem,
+after the success notification.
+
+`problem.solution` can be a string, a buffer, a stream, or a function that
+returns a string, a buffer, or a stream.
+
+# problem.pass
+
+This message will be displayed when a user successfully completes a level. The
+default `problem.pass` is says `YOUR SOLUTION IS CORRECT` in a box of made of
+`@`s.
+
+`problem.pass` can be a string, a buffer, a stream, or a function that
+returns a string, a buffer, or a stream.
+
+# problem.fail
+
+This message will be displayed when a user's solution fails to pass all the
+tests. The default `problem.fail` is says `YOUR SOLUTION IS NOT CORRECT` in a
+box of made of `#`s.
+
+`problem.fail` can be a string, a buffer, a stream, or a function that
+returns a string, a buffer, or a stream.
+
+# install
+
+With [npm](https://npmjs.org) do:
+
+```
+npm install adventure
+```
+
+# license
+
+MIT
