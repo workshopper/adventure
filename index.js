@@ -68,6 +68,9 @@ Shop.prototype.execute = function (args) {
     else if (cmd === 'verify' || /^v/.test(cmd)) {
         this.verify(args, this.state.current);
     }
+    else if (cmd === 'run' || /^r/.test(cmd)) {
+        this.run(args, this.state.current);
+    }
 };
 
 Shop.prototype.add = function (name, fn) {
@@ -96,11 +99,28 @@ Shop.prototype.verify = function (args, name) {
         'This p.verify is a ' + typeof p.verify
         + '. It should be a function instead.'
     );
-    var s = p.verify(args, function (ok) {
+    show(p.verify(args, function (ok) {
         if (ok) self.pass(name, p)
         else self.fail(name, p)
-    });
-    if (s && s.readable) s.pipe(process.stdout);
+    }));
+};
+
+Shop.prototype.run = function (args, name) {
+    var self = this;
+    var adv = this.find(name);
+    if (!adv) return this._error(
+        'No adventure is currently selected. '
+        + 'Select an adventure from the menu.'
+    );
+    var p = adv.fn();
+    if (!p.run) return this._error(
+        "This problem doesn't have a .run function."
+    );
+    if (typeof p.run !== 'function') return this._error(
+        'This p.run is a ' + typeof p.run
+        + '. It should be a function instead.'
+    );
+    show(p.run(args));
 };
 
 Shop.prototype.pass = function (name, p) {
