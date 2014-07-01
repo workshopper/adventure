@@ -1,6 +1,6 @@
 {
   "name": "adventure",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "quickly hack together a nodeschool adventure",
   "main": "index.js",
   "dependencies": {
