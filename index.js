@@ -187,6 +187,11 @@ Shop.prototype.pass = function (name, p) {
         console.log(this.colors.reset + '\n');
     }
     if (p.solution) this._show(p.solution);
+    
+    this.emit('pass', name);
+    if (this.state.completed.length === this._adventures.length) {
+        this.emit('finished');
+    }
 };
 
 Shop.prototype.fail = function (name, p) {
@@ -207,6 +212,7 @@ Shop.prototype.fail = function (name, p) {
         console.log('#########################################');
         console.log(this.colors.reset + '\n');
     }
+    this.emit('fail', name);
 };
 
 Shop.prototype.select = function (name) {
