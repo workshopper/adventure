@@ -242,6 +242,20 @@ box of made of `#`s.
 `problem.fail` can be a string, a buffer, a stream, or a function that
 returns a string, a buffer, or a stream.
 
+# events
+
+## shop.on('pass', function (name) {})
+
+This event fires when a solution passed.
+
+## shop.on('fail', function (name) {})
+
+This event fires when a solution failed.
+
+## shop.on('finished', function () {})
+
+This event fires when all the levels are completed.
+
 # problem variables
 
 These variables will be automatically replaced any time you use them in any of
