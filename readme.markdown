@@ -285,6 +285,10 @@ $COMMAND list
 $COMMAND completed
 
   List the completed levels.
+ 
+$COMMAND reset
+
+  Reset the list of completed levels.
 
 $COMMAND help
 
