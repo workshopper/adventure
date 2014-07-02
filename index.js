@@ -72,10 +72,10 @@ Shop.prototype.execute = function (args) {
     var cmd = args[0];
     var argv = minimist(args, { alias: { h: 'help' } });
     
-    if (cmd === 'verify' || /^v/.test(cmd)) {
+    if (cmd === 'verify') {
         this.verify(args.slice(1), this.state.current);
     }
-    else if (cmd === 'run' || /^r/.test(cmd)) {
+    else if (cmd === 'run') {
         this.run(args.slice(1), this.state.current);
     }
     else if (cmd === 'help' || argv.help) {
@@ -95,6 +95,12 @@ Shop.prototype.execute = function (args) {
     }
     else if (cmd === 'select') {
         this.select(args[1]);
+    }
+    else if (cmd === 'reset') {
+        this.state.completed = [];
+        this.save('completed');
+        this.state.current = null;
+        this.save('current');
     }
     else if (!cmd || cmd === 'menu') {
         this.showMenu(this.options);
