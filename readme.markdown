@@ -40,7 +40,7 @@ is just an object with a `.problem` string and `.verify` function.
 
 Here's what we can put in `dinosaurs/index.js`:
 
-```
+``` js
 exports.problem = 'Make a dinosaur sound.\n'
     + 'Use `$ADVENTURE_COMMAND verify YOUR_TEXT...` to make your sound.'
 ;
