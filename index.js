@@ -96,6 +96,9 @@ Shop.prototype.execute = function (args) {
     else if (cmd === 'select') {
         this.select(args[1]);
     }
+    else if (cmd === 'print') {
+        this.select(this.state.current);
+    }
     else if (cmd === 'reset') {
         this.state.completed = [];
         this.save('completed');
