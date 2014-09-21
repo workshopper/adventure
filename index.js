@@ -99,7 +99,7 @@ Shop.prototype.execute = function (args) {
     else if (cmd === 'print') {
         this.select(this.state.current);
     }
-    else if (cmd === 'answer') {
+    else if (cmd === 'solution') {
         var adv = this.find(this.state.current);
         if (!adv) {
             return console.log(
