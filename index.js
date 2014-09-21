@@ -99,6 +99,19 @@ Shop.prototype.execute = function (args) {
     else if (cmd === 'print') {
         this.select(this.state.current);
     }
+    else if (cmd === 'answer') {
+        var adv = this.find(this.state.current);
+        if (!adv) {
+            return console.log(
+                'No adventure is currently selected. '
+                + 'Select an adventure from the menu.'
+            );
+            process.exit(1);
+        }
+        var p = adv.fn();
+        if (p.solution) this._show(p.solution);
+        else console.log('No reference solution available for this adventure.')
+    }
     else if (cmd === 'reset') {
         this.state.completed = [];
         this.save('completed');
