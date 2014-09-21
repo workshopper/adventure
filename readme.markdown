@@ -284,9 +284,17 @@ $COMMAND run [ARGS...]
   Run the currently selected problem with ARGS.
   Not all problems support `run`.
 
+$COMMAND solution
+
+  Show the solution for the currently selected problem.
+
+$COMMAND print
+
+  Print the text of the currently selected level.
+
 $COMMAND selected
 
-  Print the currently selected level.
+  Print the name of the currently selected level.
  
 $COMMAND select LEVEL
 
