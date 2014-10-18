@@ -242,6 +242,12 @@ box of made of `#`s.
 `problem.fail` can be a string, a buffer, a stream, or a function that
 returns a string, a buffer, or a stream.
 
+## problem.template
+
+This is a path to your template. It gets run when a user selects your problem.
+
+`problem.template` is a path to your template.
+
 # events
 
 ## shop.on('pass', function (name) {})

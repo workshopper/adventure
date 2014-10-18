@@ -249,6 +249,9 @@ Shop.prototype.select = function (name) {
         ;
     }
     if (p.problem) this._show(p.problem);
+    if (p.template) {
+        fs.createReadStream(p.template).pipe(fs.createWriteStream(name + '.js'));
+    }
 };
 
 Shop.prototype.showMenu = function (opts) {
