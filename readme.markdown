@@ -244,7 +244,7 @@ returns a string, a buffer, or a stream.
 
 ## problem.template
 
-This is a path to your template. It gets run when a user selects your problem.
+This is a path to your template. It gets created when a user selects your problem.
 
 `problem.template` is a path to your template.
 
