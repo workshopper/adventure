@@ -1,0 +1,13 @@
+{
+  "help": "HELP",
+  "exit": "EXIT",
+  "error": "ERROR:",
+  "completed": "[COMPLETED]",
+  "solution-incorrect": "YOUR SOLUTION IS NOT CORRECT!",
+  "unrecognized-command": "unrecognized command:",
+  "no-adventure-selected": "No adventure is currently selected. Select an adventure from the menu.",
+  "solution-correct": "YOUR SOLUTION IS CORRECT!",
+  "no-solution": "No reference solution available for this adventure.",
+  "no-run-function": "This problem doesn't have a .run function.",
+  "no-verify-function": "This problem doesn't have a .verify function yet!"
+}

@@ -10,6 +10,7 @@
     "split": "~0.3.0",
     "terminal-menu": "^2.1.1",
     "through2": "~0.5.1",
+    "visualwidth": "0.0.1",
     "x256": "~0.0.1"
   },
   "devDependencies": {

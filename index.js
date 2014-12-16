@@ -7,9 +7,11 @@ var x256 = require('x256');
 var through = require('through2');
 var split = require('split');
 var minimist = require('minimist');
+var vw = require('visualwidth')
 
 var showMenu = require('./lib/menu.js');
 var showHelp = require('./lib/help.js');
+var lang = require('./lib/lang.js')
 
 module.exports = Shop;
 inherits(Shop, EventEmitter);
@@ -21,6 +23,10 @@ function Shop (opts) {
     
     this.name = opts.name;
     this.options = opts;
+    
+    this.usage = opts.usage;
+    
+    this.i18n = lang(opts.i18n)
     
     if (!this.name) return this._error(
         'Your adventure must have a name! '
@@ -79,7 +85,7 @@ Shop.prototype.execute = function (args) {
         this.run(args.slice(1), this.state.current);
     }
     else if (cmd === 'help' || argv.help) {
-        showHelp({ command: this.command });
+        showHelp({ command: this.command, usage: this.usage });
     }
     else if (cmd === 'selected') {
         console.log(this.state.current);
@@ -102,15 +108,12 @@ Shop.prototype.execute = function (args) {
     else if (cmd === 'solution') {
         var adv = this.find(this.state.current);
         if (!adv) {
-            return console.log(
-                'No adventure is currently selected. '
-                + 'Select an adventure from the menu.'
-            );
+            return console.log(this.i18n['no-adventure-selected']);
             process.exit(1);
         }
         var p = adv.fn();
         if (p.solution) this._show(p.solution);
-        else console.log('No reference solution available for this adventure.')
+        else console.log(this.i18n['no-solution'])
     }
     else if (cmd === 'reset') {
         this.state.completed = [];
@@ -122,7 +125,7 @@ Shop.prototype.execute = function (args) {
         this.showMenu(this.options);
     }
     else {
-        console.log('unrecognized command: ' + cmd);
+        console.log(this.i18n['unrecognized-command'], cmd);
     }
 };
 
@@ -141,14 +144,9 @@ Shop.prototype.find = function (name) {
 Shop.prototype.verify = function (args, name) {
     var self = this;
     var adv = this.find(name);
-    if (!adv) return this._error(
-        'No adventure is currently selected. '
-        + 'Select an adventure from the menu.'
-    );
+    if (!adv) return this._error(this.i18n["no-adventure-selected"]);
     var p = adv.fn();
-    if (!p.verify) return this._error(
-        "This problem doesn't have a .verify function yet!"
-    );
+    if (!p.verify) return this._error(this.i18n["no-verify-function"]);
     if (typeof p.verify !== 'function') return this._error(
         'This p.verify is a ' + typeof p.verify
         + '. It should be a function instead.'
@@ -164,14 +162,9 @@ Shop.prototype.verify = function (args, name) {
 Shop.prototype.run = function (args, name) {
     var self = this;
     var adv = this.find(name);
-    if (!adv) return this._error(
-        'No adventure is currently selected. '
-        + 'Select an adventure from the menu.'
-    );
+    if (!adv) return this._error(this.i18n["no-adventure-selected"]);
     var p = adv.fn();
-    if (!p.run) return this._error(
-        "This problem doesn't have a .run function."
-    );
+    if (!p.run) return this._error(this.i18n["no-run-function"]);
     if (typeof p.run !== 'function') return this._error(
         'This p.run is a ' + typeof p.run
         + '. It should be a function instead.'
@@ -192,14 +185,14 @@ Shop.prototype.pass = function (name, p) {
     else {
         console.log(
             '\n' + this.colors.pass
-            + '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+            + Array(vw.width(this.i18n['solution-correct']) + 13).join('@')
         );
         console.log(
             '@@@' + this.colors.reset
-            + '     YOUR SOLUTION IS CORRECT'
-            + this.colors.pass + '!     @@@'
+            + '   ' + this.i18n['solution-correct']
+            + this.colors.pass + '   @@@'
         );
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        console.log(Array(vw.width(this.i18n['solution-correct']) + 13).join('@'));
         console.log(this.colors.reset + '\n');
     }
     if (p.solution) this._show(p.solution);
@@ -218,14 +211,14 @@ Shop.prototype.fail = function (name, p) {
     else {
         console.log(
             this.colors.fail
-            + '#########################################'
+            + Array(vw.width(this.i18n['solution-incorrect']) + 13).join('#')
         );
         console.log(
             '###' + this.colors.reset
-            + '   YOUR SOLUTION IS NOT CORRECT!'
+            + '   ' + this.i18n['solution-incorrect']
             + this.colors.fail + '   ###'
         );
-        console.log('#########################################');
+        console.log(Array(vw.width(this.i18n['solution-incorrect']) + 13).join('#'));
         console.log(this.colors.reset + '\n');
     }
     this.emit('fail', name);
@@ -260,6 +253,8 @@ Shop.prototype.showMenu = function (opts) {
         bg: opts.bg,
         autoclose: typeof opts.autoclose === 'boolean' ? opts.autoclose : true,
         command: this.command,
+        i18n: this.i18n,
+        usage: this.usage,
         title: opts.title || this.name.toUpperCase(),
         names: this._adventures.map(function (x) { return x.name }),
         completed: this.state.completed
@@ -280,7 +275,7 @@ Shop.prototype.save = function (key) {
 };
 
 Shop.prototype._error = function (msg) {
-    console.error('ERROR: ' + msg);
+    console.error(this.i18n.error, msg);
     process.exit(1);
 };
 

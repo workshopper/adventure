@@ -160,6 +160,8 @@ completed levels. default: `'~/.config/' + opts.name`
 
 * `opts.autoclose` - whether to close stdin automatically after the menu is
 shown
+* `opts.usage` - stream providing a different usage template (see below)
+* `opts.i18n` - object mapping to alternative language strings (see `/lib/en.json`)
 
 If `opts` is a string, it will be treated as the `opts.name`.
 
