@@ -175,7 +175,7 @@ yourself explicitly with `.showMenu()`.
 
 The options are:
 
-* `opts.fb` - foreground color
+* `opts.fg` - foreground color
 * `opts.bg` - background color
 * `opts.title` - menu title text
 
