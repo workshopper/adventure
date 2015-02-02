@@ -258,6 +258,7 @@ Shop.prototype.showMenu = function (opts) {
     var menu = showMenu({
         fg: opts.fg,
         bg: opts.bg,
+        autoclose: typeof opts.autoclose === 'boolean' ? opts.autoclose : true,
         command: this.command,
         title: opts.title || this.name.toUpperCase(),
         names: this._adventures.map(function (x) { return x.name }),

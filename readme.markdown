@@ -158,6 +158,9 @@ completed levels. default: `'~/.config/' + opts.name`
 * `opts.fg` - menu foreground color
 * `opts.bg` - menu background color
 
+* `opts.autoclose` - whether to close stdin automatically after the menu is
+shown
+
 If `opts` is a string, it will be treated as the `opts.name`.
 
 ## shop.add(name, fn)
@@ -178,6 +181,8 @@ The options are:
 * `opts.fg` - foreground color
 * `opts.bg` - background color
 * `opts.title` - menu title text
+* `opts.autoclose` - whether to close stdin automatically after the menu is
+shown
 
 ## shop.select(name)
 
