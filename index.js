@@ -99,6 +99,15 @@ Shop.prototype.execute = function (args) {
     else if (cmd === 'print') {
         this.select(this.state.current);
     }
+    else if (cmd === 'next' || cmd === 'prev') {
+        var names = this._adventures
+            .map(function (adv) { return adv.name })
+        ;
+        var ix = names.indexOf(this.state.current);
+        if (cmd === 'next') ix ++
+        else if (cmd === 'prev') ix --
+        if (names[ix]) this.select(names[ix])
+    }
     else if (cmd === 'solution') {
         var adv = this.find(this.state.current);
         if (!adv) {

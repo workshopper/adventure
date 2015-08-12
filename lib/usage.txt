@@ -32,6 +32,14 @@ $COMMAND list
 
   List the available levels.
 
+$COMMAND next
+
+  Select the next adventure.
+
+$COMMAND prev
+
+  Select the previous adventure.
+
 $COMMAND completed
 
   List the completed levels.
