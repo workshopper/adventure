@@ -52,9 +52,25 @@ function Shop (opts) {
     this.colors = opts.colors || {};
     var c = {
         pass: [0,255,0],
-        fail: [255,0,0],
+        fail: [255,165,0],
         info: [0,255,255]
     };
+
+    this.encouragementPhrases = [
+        'Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.' +
+        '~ Samuel Beckett ',
+        'Our greatest glory is not in never falling but in rising every time we fall.' +
+        '~ Confucius',
+        'Failure provides the opportunity to begin again, more intelligently. ~ Henry Ford',
+        '"Only those who dare to fail greatly can achieve greatly." '+
+        '~ Robert F. Kennedy',
+        '"The essential part of creativity is not being afraid to fail." '+
+        '~ Edwin Land',
+        '"I don\'t believe I have special talents, I have persistence … ' +
+        'After the first failure, second failure, third failure, I kept trying.' +
+        '~ Carlo Rubbia, Nobel Prize winning Physicist',
+    ];
+
     var colors = Object.keys(c).reduce(function (acc, key) {
         acc[key] = '\x1b[38;5;' + x256(c[key]) + 'm';
         return acc;
@@ -222,8 +238,14 @@ Shop.prototype.fail = function (name, p) {
         );
         console.log(
             '###' + this.colors.reset
-            + '   YOUR SOLUTION IS NOT CORRECT!'
+            + '   THE SOLUTION IS NOT CORRECT. TRY AGAIN!'
             + this.colors.fail + '   ###'
+        );
+
+        console.log(
+            this.colors.reset
+            + this.encouragementPhrases[Math.floor(Math.random()*this.encouragementPhrases.length)]
+            + this.colors.fail
         );
         console.log('#########################################');
         console.log(this.colors.reset + '\n');
