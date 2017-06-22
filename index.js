@@ -242,6 +242,12 @@ Shop.prototype.fail = function (name, p) {
 
 Shop.prototype.select = function (name) {
     var adv = this.find(name);
+    if (!adv) {
+	return this._error(
+        'An adventure with this name does not exist. '
+        + 'Select an adventure from the menu.'
+    );
+    }
     this.state.current = name;
     this.save('current');
     
