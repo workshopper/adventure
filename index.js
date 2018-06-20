@@ -285,7 +285,11 @@ Shop.prototype.showMenu = function (opts) {
 };
 
 Shop.prototype.save = function (key) {
-    fs.writeFile(this.files[key], JSON.stringify(this.state[key]));
+    fs.writeFile(
+        this.files[key], 
+        JSON.stringify(this.state[key]), 
+        function(){}
+    );
 };
 
 Shop.prototype._error = function (msg) {
