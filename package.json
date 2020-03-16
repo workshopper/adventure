@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "inherits": "~2.0.1",
-    "minimist": "~0.2.0",
+    "minimist": "~1.2.2",
     "mkdirp": "~0.5.0",
     "split": "~0.3.0",
     "terminal-menu": "^2.1.1",
